@@ -58,13 +58,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker compose up --build -d
+      - run: docker compose up --build -d db api
       - run: |
-          for attempt in $(seq 1 30); do
-            if curl --fail http://localhost:8000/api/v1/health; then exit 0; fi
-            sleep 2
+          for attempt in $(seq 1 40); do
+            if curl --fail --silent http://localhost:8000/api/v1/health; then
+              echo ""
+              echo "API healthy after $((attempt * 3))s"
+              exit 0
+            fi
+            echo "Waiting for API... attempt $attempt/40"
+            sleep 3
           done
-          docker compose logs
+          echo "API did not become healthy in time"
+          docker compose logs api
           exit 1
       - if: always()
         run: docker compose down --volumes
