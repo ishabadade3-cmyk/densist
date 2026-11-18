@@ -80,3 +80,8 @@
 - **Deliverables:** .github/workflows/ci.yml, apps/web/scripts/check-content.mjs, .gitignore
 - **Status:** Done
 - **Notes:** Scoped ALLOW_UNVERIFIED_CONTENT=1 specifically to npm run build step in CI so npm test passes guardrail tests; updated setup-python to python-version: '3.12' without pip cache lookup; removed .env.production file.
+
+## 2026-11-18 — Fix PostgreSQL CI test teardown and auth cookie security
+- **Deliverables:** apps/api/tests/conftest.py, apps/api/app/auth_routes.py, apps/api/migrations/versions/0002_core_schema.py, .github/workflows/ci.yml
+- **Status:** Done
+- **Notes:** Handled auth_app fixture teardown downgrade exceptions when compliance guards refuse downgrade on seeded data; set is_secure True in test environment for __Host- cookie security assertions; added CASCADE to function drop in 0002 migration; untracked stale pycache files.

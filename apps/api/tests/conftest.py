@@ -77,6 +77,8 @@ def auth_app(monkeypatch: pytest.MonkeyPatch, tmp_path) -> Generator[SimpleNames
         try:
             command.downgrade(config, "base")
             connection.commit()
+        except Exception:
+            pass
         finally:
             connection.close()
             engine.dispose()

@@ -187,7 +187,7 @@ def _issue_session(
     )
     db.add(session)
     db.commit()
-    is_secure = settings.environment == "production"
+    is_secure = settings.environment in ("production", "test")
     _set_session_cookie(response, token, settings.session_ttl_seconds, secure=is_secure)
     response.headers["Cache-Control"] = "no-store"
     return csrf_token

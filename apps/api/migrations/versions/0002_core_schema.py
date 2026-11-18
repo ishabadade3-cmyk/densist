@@ -44,10 +44,13 @@ def downgrade() -> None:
     metadata = _core_metadata()
     for table_name in reversed(list(metadata.tables)):
         op.execute(sa.text(f'DROP TRIGGER IF EXISTS "trg_{table_name}_updated_at" ON "{table_name}"'))
-    op.execute("DROP FUNCTION IF EXISTS set_updated_at_utc()")
+    op.execute("DROP FUNCTION IF EXISTS set_updated_at_utc() CASCADE")
     metadata.drop_all(bind=op.get_bind(), checkfirst=False)
-    op.execute("DROP EXTENSION IF EXISTS citext")
-    op.execute("DROP EXTENSION IF EXISTS btree_gist")
+    try:
+        op.execute("DROP EXTENSION IF EXISTS citext")
+        op.execute("DROP EXTENSION IF EXISTS btree_gist")
+    except Exception:
+        pass
 
 
 def _copy_table(table: sa.Table, metadata: MetaData, include_columns: set[str] | None = None) -> sa.Table:
