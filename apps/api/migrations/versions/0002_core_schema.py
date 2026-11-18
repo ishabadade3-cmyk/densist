@@ -46,11 +46,7 @@ def downgrade() -> None:
         op.execute(sa.text(f'DROP TRIGGER IF EXISTS "trg_{table_name}_updated_at" ON "{table_name}"'))
     op.execute("DROP FUNCTION IF EXISTS set_updated_at_utc() CASCADE")
     metadata.drop_all(bind=op.get_bind(), checkfirst=False)
-    try:
-        op.execute("DROP EXTENSION IF EXISTS citext")
-        op.execute("DROP EXTENSION IF EXISTS btree_gist")
-    except Exception:
-        pass
+    # Keep extensions: btree_gist and citext may have existed before this revision or be used by other schemas.
 
 
 def _copy_table(table: sa.Table, metadata: MetaData, include_columns: set[str] | None = None) -> sa.Table:
