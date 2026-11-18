@@ -103,9 +103,13 @@ def test_booking_workflow_and_cancellation(client: TestClient):
     assert any(a["appointment_id"] == appt_id for a in appts)
 
     # 4. Cancel appointment
-    cancel_res = client.post(f"/api/v1/appointments/{appt_id}/cancel", json={
-        "cancellation_reason": "Schedule conflict"
-    })
+    csrf_res = client.post("/api/v1/auth/csrf", headers={"Origin": "https://localhost:3000"})
+    csrf_token = csrf_res.json()["csrf_token"]
+    cancel_res = client.post(
+        f"/api/v1/appointments/{appt_id}/cancel",
+        json={"cancellation_reason": "Schedule conflict"},
+        headers={"Origin": "https://localhost:3000", "X-CSRF-Token": csrf_token},
+    )
     assert cancel_res.status_code == 200
     assert cancel_res.json()["status"] == "cancelled"
 
@@ -116,9 +120,9 @@ def test_booking_workflow_and_cancellation(client: TestClient):
 
 def test_patient_portal_endpoints(client: TestClient):
     services_res = client.get("/api/v1/services")
-    service = services_res.json()[1]
+    service = services_res.json()[0]
     dentists_res = client.get("/api/v1/dentists")
-    dentist = dentists_res.json()[1]
+    dentist = dentists_res.json()[0]
 
     unique_suffix = uuid.uuid4().hex[:6]
     booking_payload = {
@@ -155,13 +159,11 @@ def test_patient_portal_endpoints(client: TestClient):
     inv_res = client.get("/api/v1/invoices")
     assert inv_res.status_code == 200
     assert inv_res.json() == []  # No invoice records are seeded or fabricated
-    assert "invoice_number" in inv_res.json()[0]
 
     # 4. Payments
     pay_res = client.get("/api/v1/payments")
     assert pay_res.status_code == 200
     assert pay_res.json() == []  # No payment records are seeded or fabricated
-    assert "amount" in pay_res.json()[0]
 
 
 def secrets_rand():

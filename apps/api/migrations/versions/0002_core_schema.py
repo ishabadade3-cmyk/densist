@@ -50,13 +50,31 @@ def downgrade() -> None:
     op.execute("DROP EXTENSION IF EXISTS btree_gist")
 
 
+def _copy_table(table: sa.Table, metadata: MetaData, include_columns: set[str] | None = None) -> sa.Table:
+    cols = [col._copy(schema=table.schema, _to_metadata=metadata) for col in table.columns if include_columns is None or col.name in include_columns]
+    new_table = sa.Table(table.name, metadata, schema=table.schema, comment=table.comment, *cols, **table.kwargs)
+    for const in table.constraints:
+        if const is table.primary_key:
+            continue
+        if include_columns is not None and any(getattr(c, "name", None) not in include_columns for c in const.columns):
+            continue
+        new_table.append_constraint(const._copy(schema=table.schema, target_table=new_table))
+    for idx in table.indexes:
+        if idx._column_flag:
+            continue
+        if include_columns is not None and any(getattr(c, "name", None) not in include_columns for c in idx.columns):
+            continue
+        sa.Index(idx.name, unique=idx.unique, *[c for c in new_table.columns if c.name in {getattr(col, "name", None) for col in idx.columns}], _table=new_table, **idx.kwargs)
+    return new_table
+
+
 def _core_metadata() -> MetaData:
     """Keep the original 25-table revision immutable as auth evolves in later revisions."""
     metadata = MetaData(naming_convention=Base.metadata.naming_convention)
     for name, table in Base.metadata.tables.items():
         if name == "payments":
             # Keep the original payment table shape; revision 0006 owns payment evolution.
-            copied = table.to_metadata(metadata, include_columns={
+            copied = _copy_table(table, metadata, include_columns={
                 "payment_id", "patient_id", "appointment_id", "invoice_id", "amount",
                 "currency", "status", "provider_reference", "verified_at", "created_at", "updated_at",
             })
@@ -66,7 +84,7 @@ def _core_metadata() -> MetaData:
             continue
         if name == "notifications":
             # Preserve the original queue table shape; revision 0007 owns its evolution.
-            copied = table.to_metadata(metadata, include_columns={
+            copied = _copy_table(table, metadata, include_columns={
                 "notification_id", "user_id", "channel", "message_reference",
                 "delivery_status", "created_at", "updated_at",
             })
@@ -79,7 +97,7 @@ def _core_metadata() -> MetaData:
             continue
         if name == "consents":
             # Revision 0007 adds channel-scoped consent without rewriting legacy rows.
-            table.to_metadata(metadata, include_columns={
+            _copy_table(table, metadata, include_columns={
                 "consent_id", "patient_id", "purpose", "status", "recorded_at",
                 "policy_version", "evidence_ref", "created_at", "updated_at",
             })

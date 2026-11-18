@@ -1,8 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /api/
-Disallow: /portal/
-Disallow: /admin/
-Disallow: /auth/
-
-Sitemap: https://example-dental.in/sitemap.xml

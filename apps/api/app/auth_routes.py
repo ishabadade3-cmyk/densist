@@ -233,11 +233,12 @@ def require_roles(*roles: str):
 def require_csrf(
     request: Request,
     context: Annotated[AuthContext, Depends(get_auth_context)],
+    settings: Annotated[AuthSettings, Depends(_settings)],
     csrf_token: Annotated[str | None, Header(alias="X-CSRF-Token")] = None,
 ) -> None:
     if not csrf_token or not hmac.compare_digest(csrf_digest(csrf_token), context.session.csrf_token_hash):
         raise HTTPException(status_code=403, detail="CSRF_INVALID")
-    _same_origin(request)
+    _same_origin(request, settings)
 
 
 def _find_user(db: Session, identifier: str) -> User | None:

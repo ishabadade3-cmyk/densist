@@ -7,4 +7,11 @@
 /restore-test/
 *.age
 *.age.tmp
-node_modules
+node_modules/
+.next/
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite3
+.pytest_cache/
+.ruff_cache/

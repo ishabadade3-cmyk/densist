@@ -70,3 +70,8 @@
 - Web: .env.production + ci.yml env + .gitignore exception unblock ALLOW_UNVERIFIED_CONTENT=1  
 - API lint: 8 ruff errors fixed across migration, 3 tests, ai_service, clinical_records_routes  
 - Compose-smoke: not changed (web Dockerfile uses dev mode, only api health checked)  
+
+## 2026-11-18 — Fix all CI checks and Vercel build
+- **Deliverables:** 0002_core_schema.py, auth_routes.py, test_booking.py, check-content.mjs, .gitignore
+- **Status:** Done
+- **Notes:** Fixed Alembic upgrade Table.to_metadata error in core migration, require_csrf settings argument passing, booking test CSRF token acquisition and empty list indexing, check-content.mjs loading .env.production and Vercel detection, and removed committed .next build directory from git tracking.
