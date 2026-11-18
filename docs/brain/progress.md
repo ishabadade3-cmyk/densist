@@ -65,3 +65,8 @@
 - **Deliverable:** vercel.json + next.config.js update
 - **Status:** Done — committed 3121448
 - **Notes:** services: api (FastAPI/apps/api) + web (Next.js/apps/web); /api/* ? api, /* ? web; web?api binding via API_INTERNAL_URL; ALLOW_UNVERIFIED_CONTENT=1 unblocks build; local dev falls back to localhost:8000. Open: DATABASE_URL, clinical file storage (local disk won't persist on serverless), alembic migrations strategy.
+  
+## 2026-11-18 â€” Fix CI and Vercel build failures (cbdc973)  
+- Web: .env.production + ci.yml env + .gitignore exception unblock ALLOW_UNVERIFIED_CONTENT=1  
+- API lint: 8 ruff errors fixed across migration, 3 tests, ai_service, clinical_records_routes  
+- Compose-smoke: not changed (web Dockerfile uses dev mode, only api health checked)  
