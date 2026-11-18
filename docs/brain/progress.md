@@ -75,3 +75,8 @@
 - **Deliverables:** 0002_core_schema.py, auth_routes.py, test_booking.py, check-content.mjs, .gitignore
 - **Status:** Done
 - **Notes:** Fixed Alembic upgrade Table.to_metadata error in core migration, require_csrf settings argument passing, booking test CSRF token acquisition and empty list indexing, check-content.mjs loading .env.production and Vercel detection, and removed committed .next build directory from git tracking.
+
+## 2026-11-18 — Fix CI web test and API setup-python failures
+- **Deliverables:** .github/workflows/ci.yml, apps/web/scripts/check-content.mjs, .gitignore
+- **Status:** Done
+- **Notes:** Scoped ALLOW_UNVERIFIED_CONTENT=1 specifically to npm run build step in CI so npm test passes guardrail tests; updated setup-python to python-version: '3.12' without pip cache lookup; removed .env.production file.
