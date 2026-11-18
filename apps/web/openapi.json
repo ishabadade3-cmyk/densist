@@ -1,0 +1,2643 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Dental Clinic API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Register",
+        "operationId": "register_api_v1_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "boolean"
+                  },
+                  "type": "object",
+                  "title": "Response Register Api V1 Auth Register Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Login Api V1 Auth Login Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/otp/verify": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Verify Registration Otp",
+        "operationId": "verify_registration_otp_api_v1_auth_otp_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPVerifyIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Verify Registration Otp Api V1 Auth Otp Verify Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/password-recovery": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Request Password Recovery",
+        "operationId": "request_password_recovery_api_v1_auth_password_recovery_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecoveryIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "boolean"
+                  },
+                  "type": "object",
+                  "title": "Response Request Password Recovery Api V1 Auth Password Recovery Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/password-recovery/verify": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Recover Password",
+        "operationId": "recover_password_api_v1_auth_password_recovery_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecoveryVerifyIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/mfa/enroll": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Enroll Mfa",
+        "operationId": "enroll_mfa_api_v1_auth_mfa_enroll_post",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Enroll Mfa Api V1 Auth Mfa Enroll Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/mfa/verify": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Verify Mfa Enrollment",
+        "operationId": "verify_mfa_enrollment_api_v1_auth_mfa_verify_post",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TOTPIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Verify Mfa Enrollment Api V1 Auth Mfa Verify Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/csrf": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Get Csrf Token",
+        "operationId": "get_csrf_token_api_v1_auth_csrf_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Get Csrf Token Api V1 Auth Csrf Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/profile": {
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_api_v1_auth_profile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Get Profile Api V1 Auth Profile Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Update Profile",
+        "operationId": "update_profile_api_v1_auth_profile_patch",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfilePatchIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "title": "Response Update Profile Api V1 Auth Profile Patch"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/profile/contact-verification": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Request Contact Change Verification",
+        "operationId": "request_contact_change_verification_api_v1_auth_profile_contact_verification_post",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactChangeIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  },
+                  "title": "Response Request Contact Change Verification Api V1 Auth Profile Contact Verification Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/profile/contact-verification/verify": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Verify Contact Change",
+        "operationId": "verify_contact_change_api_v1_auth_profile_contact_verification_verify_post",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPVerifyIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "title": "Response Verify Contact Change Api V1 Auth Profile Contact Verification Verify Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/consents": {
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Get Consents",
+        "operationId": "get_consents_api_v1_auth_consents_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array",
+                  "title": "Response Get Consents Api V1 Auth Consents Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/consents/{purpose}": {
+      "put": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Update Consent",
+        "operationId": "update_consent_api_v1_auth_consents__purpose__put",
+        "parameters": [
+          {
+            "name": "purpose",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Purpose"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Update Consent Api V1 Auth Consents  Purpose  Put"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/patients/{patient_id}/records": {
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "List Patient Records",
+        "operationId": "list_patient_records_api_v1_patients__patient_id__records_get",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Patient Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "title": "Response List Patient Records Api V1 Patients  Patient Id  Records Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Create Patient Record",
+        "operationId": "create_patient_record_api_v1_patients__patient_id__records_post",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Patient Id"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClinicalNoteIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Create Patient Record Api V1 Patients  Patient Id  Records Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List Services",
+        "operationId": "list_services_api_v1_services_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Services Api V1 Services Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dentists": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List Dentists",
+        "operationId": "list_dentists_api_v1_dentists_get",
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Service Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DentistOut"
+                  },
+                  "title": "Response List Dentists Api V1 Dentists Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/availability": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Get Availability",
+        "description": "Calculate realistic available slots for the given date, service and dentist.",
+        "operationId": "get_availability_api_v1_availability_get",
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Service Id"
+            }
+          },
+          {
+            "name": "dentist_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Dentist Id"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SlotOut"
+                  },
+                  "title": "Response Get Availability Api V1 Availability Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/otp/send": {
+      "post": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Send Otp",
+        "description": "Generate and deliver OTP. Returns dev_code for testing in non-production environments.",
+        "operationId": "send_otp_api_v1_auth_otp_send_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPRequestIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OTPResponseOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/appointments": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List Appointments",
+        "description": "List appointments for currently authenticated patient (SRS \u00a76.3).",
+        "operationId": "list_appointments_api_v1_appointments_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AppointmentOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Appointments Api V1 Appointments Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Create Appointment",
+        "description": "Create appointment booking (WF-001). Supports new visitor or authenticated patient.",
+        "operationId": "create_appointment_api_v1_appointments_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/appointments/{appointment_id}": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Get Appointment",
+        "operationId": "get_appointment_api_v1_appointments__appointment_id__get",
+        "parameters": [
+          {
+            "name": "appointment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Appointment Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Patch Appointment",
+        "description": "Reschedule or cancel appointment (FR-015, FR-016).",
+        "operationId": "patch_appointment_api_v1_appointments__appointment_id__patch",
+        "parameters": [
+          {
+            "name": "appointment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Appointment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentPatchIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/appointments/{appointment_id}/cancel": {
+      "post": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Cancel Appointment",
+        "description": "Convenient endpoint for cancellation (FR-015).",
+        "operationId": "cancel_appointment_api_v1_appointments__appointment_id__cancel_post",
+        "parameters": [
+          {
+            "name": "appointment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Appointment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentPatchIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/patients/me": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Get My Patient Profile",
+        "description": "Return profile for currently logged in patient (SRS \u00a76.2, POR-002).",
+        "operationId": "get_my_patient_profile_api_v1_patients_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientProfileOut"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "Update My Patient Profile",
+        "description": "Update profile details for currently logged in patient.",
+        "operationId": "update_my_patient_profile_api_v1_patients_me_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientProfileUpdateIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientProfileOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/patients/me/documents": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List My Patient Documents",
+        "description": "List released clinical documents for the logged in patient (SRS \u00a76.5, POR-005).",
+        "operationId": "list_my_patient_documents_api_v1_patients_me_documents_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DocumentOut"
+                  },
+                  "type": "array",
+                  "title": "Response List My Patient Documents Api V1 Patients Me Documents Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/patients/{patient_id}/documents": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List Patient Documents By Id",
+        "description": "List released documents for specified patient.",
+        "operationId": "list_patient_documents_by_id_api_v1_patients__patient_id__documents_get",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Patient Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DocumentOut"
+                  },
+                  "title": "Response List Patient Documents By Id Api V1 Patients  Patient Id  Documents Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invoices": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List Invoices",
+        "description": "List billing invoices (SRS \u00a76.6, POR-006).",
+        "operationId": "list_invoices_api_v1_invoices_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/InvoiceOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Invoices Api V1 Invoices Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments": {
+      "get": {
+        "tags": [
+          "clinical"
+        ],
+        "summary": "List Payments",
+        "description": "List payment history and receipts (SRS \u00a76.6, POR-006).",
+        "operationId": "list_payments_api_v1_payments_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Payments Api V1 Payments Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Check Api V1 Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressModel": {
+        "properties": {
+          "street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          }
+        },
+        "type": "object",
+        "title": "AddressModel"
+      },
+      "AppointmentOut": {
+        "properties": {
+          "appointment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Appointment Id"
+          },
+          "patient_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Patient Id"
+          },
+          "dentist_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dentist Id"
+          },
+          "dentist_name": {
+            "type": "string",
+            "title": "Dentist Name"
+          },
+          "service_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Service Id"
+          },
+          "service_name": {
+            "type": "string",
+            "title": "Service Name"
+          },
+          "start_time": {
+            "type": "string",
+            "title": "Start Time"
+          },
+          "end_time": {
+            "type": "string",
+            "title": "End Time"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "appointment_id",
+          "patient_id",
+          "dentist_id",
+          "dentist_name",
+          "service_id",
+          "service_name",
+          "start_time",
+          "end_time",
+          "status",
+          "created_at"
+        ],
+        "title": "AppointmentOut"
+      },
+      "AppointmentPatchIn": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "cancellation_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancellation Reason"
+          },
+          "new_start_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "New Start Time"
+          },
+          "new_dentist_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "New Dentist Id"
+          }
+        },
+        "type": "object",
+        "title": "AppointmentPatchIn"
+      },
+      "BookingIn": {
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Service Id"
+          },
+          "dentist_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dentist Id"
+          },
+          "start_time": {
+            "type": "string",
+            "title": "Start Time"
+          },
+          "end_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Time"
+          },
+          "patient_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Patient Name"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 8,
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "date_of_birth": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date Of Birth"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "idempotency_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "service_id",
+          "dentist_id",
+          "start_time",
+          "patient_name",
+          "phone"
+        ],
+        "title": "BookingIn"
+      },
+      "ClinicalNoteIn": {
+        "properties": {
+          "clinical_notes": {
+            "type": "string",
+            "maxLength": 20000,
+            "minLength": 1,
+            "title": "Clinical Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "clinical_notes"
+        ],
+        "title": "ClinicalNoteIn"
+      },
+      "ConsentIn": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "pattern": "^(granted|revoked|withdrawn)$",
+            "title": "Status"
+          },
+          "channel": {
+            "anyOf": [
+              {"type": "string", "pattern": "^(email|sms|whatsapp)$"},
+              {"type": "null"}
+            ],
+            "title": "Channel"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "ConsentIn"
+      },
+      "ContactChangeIn": {
+        "properties": {
+          "email_or_phone": {
+            "type": "string",
+            "maxLength": 320,
+            "minLength": 1,
+            "title": "Email Or Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email_or_phone"
+        ],
+        "title": "ContactChangeIn"
+      },
+      "DentistOut": {
+        "properties": {
+          "dentist_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dentist Id"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "qualification": {
+            "type": "string",
+            "title": "Qualification"
+          },
+          "specialization": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Specialization"
+          },
+          "experience_years": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experience Years"
+          },
+          "languages": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Languages"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dentist_id",
+          "user_id",
+          "name",
+          "qualification",
+          "active"
+        ],
+        "title": "DentistOut"
+      },
+      "DocumentOut": {
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Document Id"
+          },
+          "patient_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Patient Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "file_url": {
+            "type": "string",
+            "title": "File Url"
+          },
+          "media_type": {
+            "type": "string",
+            "title": "Media Type"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "title": "Size Bytes"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "released_by_name": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "title": "Released By Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document_id",
+          "patient_id",
+          "title",
+          "kind",
+          "file_url",
+          "media_type",
+          "size_bytes",
+          "created_at",
+          "released_by_name"
+        ],
+        "title": "DocumentOut"
+      },
+      "EmergencyContactModel": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "title": "EmergencyContactModel"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InvoiceOut": {
+        "properties": {
+          "invoice_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Invoice Id"
+          },
+          "invoice_number": {
+            "type": "string",
+            "title": "Invoice Number"
+          },
+          "patient_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Patient Id"
+          },
+          "appointment_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appointment Id"
+          },
+          "total_amount": {
+            "type": "number",
+            "title": "Total Amount"
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount"
+          },
+          "net_amount": {
+            "type": "number",
+            "title": "Net Amount"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "issued_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Issued At"
+          },
+          "pdf_document_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf Document Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "invoice_id",
+          "invoice_number",
+          "patient_id",
+          "total_amount",
+          "tax_amount",
+          "net_amount",
+          "status"
+        ],
+        "title": "InvoiceOut"
+      },
+      "LoginIn": {
+        "properties": {
+          "email_or_phone": {
+            "type": "string",
+            "maxLength": 320,
+            "minLength": 1,
+            "title": "Email Or Phone"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "Password"
+          },
+          "totp_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Totp Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email_or_phone",
+          "password"
+        ],
+        "title": "LoginIn"
+      },
+      "OTPRequestIn": {
+        "properties": {
+          "email_or_phone": {
+            "type": "string",
+            "title": "Email Or Phone"
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Purpose",
+            "default": "booking"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email_or_phone"
+        ],
+        "title": "OTPRequestIn"
+      },
+      "OTPResponseOut": {
+        "properties": {
+          "verification_required": {
+            "type": "boolean",
+            "title": "Verification Required"
+          },
+          "dev_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dev Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "verification_required"
+        ],
+        "title": "OTPResponseOut"
+      },
+      "OTPVerifyIn": {
+        "properties": {
+          "email_or_phone": {
+            "type": "string",
+            "maxLength": 320,
+            "minLength": 1,
+            "title": "Email Or Phone"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email_or_phone",
+          "code"
+        ],
+        "title": "OTPVerifyIn"
+      },
+      "PatientProfileOut": {
+        "properties": {
+          "patient_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Patient Id"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "date_of_birth": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date Of Birth"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AddressModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "emergency_contact": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EmergencyContactModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "patient_id",
+          "name"
+        ],
+        "title": "PatientProfileOut"
+      },
+      "PatientProfileUpdateIn": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "date_of_birth": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date Of Birth"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AddressModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "emergency_contact": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EmergencyContactModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "PatientProfileUpdateIn"
+      },
+      "PaymentOut": {
+        "properties": {
+          "payment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Payment Id"
+          },
+          "patient_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Patient Id"
+          },
+          "invoice_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Id"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "payment_method": {
+            "type": "string",
+            "title": "Payment Method"
+          },
+          "offline_method": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "title": "Offline Method"
+          },
+          "refunded_amount": {
+            "type": "string",
+            "title": "Refunded Amount"
+          },
+          "receipt_number": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "title": "Receipt Number"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "verified_at": {
+            "anyOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "null" }
+            ],
+            "title": "Verified At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "payment_id",
+          "patient_id",
+          "amount",
+          "currency",
+          "status",
+          "payment_method",
+          "offline_method",
+          "refunded_amount",
+          "receipt_number",
+          "created_at",
+          "verified_at"
+        ],
+        "title": "PaymentOut"
+      },
+      "ProfilePatchIn": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ProfilePatchIn"
+      },
+      "RecoveryIn": {
+        "properties": {
+          "email_or_phone": {
+            "type": "string",
+            "maxLength": 320,
+            "minLength": 1,
+            "title": "Email Or Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email_or_phone"
+        ],
+        "title": "RecoveryIn"
+      },
+      "RecoveryVerifyIn": {
+        "properties": {
+          "email_or_phone": {
+            "type": "string",
+            "maxLength": 320,
+            "minLength": 1,
+            "title": "Email Or Phone"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "title": "Code"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email_or_phone",
+          "code",
+          "new_password"
+        ],
+        "title": "RecoveryVerifyIn"
+      },
+      "RegistrationIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 320
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "password"
+        ],
+        "title": "RegistrationIn"
+      },
+      "ServiceOut": {
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Service Id"
+          },
+          "service_name": {
+            "type": "string",
+            "title": "Service Name"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "price_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Min"
+          },
+          "price_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Max"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "service_id",
+          "service_name",
+          "duration_minutes",
+          "active"
+        ],
+        "title": "ServiceOut"
+      },
+      "SlotOut": {
+        "properties": {
+          "slot_id": {
+            "type": "string",
+            "title": "Slot Id"
+          },
+          "dentist_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dentist Id"
+          },
+          "dentist_name": {
+            "type": "string",
+            "title": "Dentist Name"
+          },
+          "start_time": {
+            "type": "string",
+            "title": "Start Time"
+          },
+          "end_time": {
+            "type": "string",
+            "title": "End Time"
+          },
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slot_id",
+          "dentist_id",
+          "dentist_name",
+          "start_time",
+          "end_time",
+          "available"
+        ],
+        "title": "SlotOut"
+      },
+      "TOTPIn": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "title": "TOTPIn"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

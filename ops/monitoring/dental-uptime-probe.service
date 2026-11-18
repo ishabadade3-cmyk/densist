@@ -1,0 +1,12 @@
+[Unit]
+Description=Dental platform HTTPS availability probe
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/dental/monitoring.env
+WorkingDirectory=/opt/dental
+ExecStart=/bin/sh /opt/dental/ops/monitoring/check-endpoints.sh
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true

@@ -1,0 +1,140 @@
+x-rotated-logs: &rotated-logs
+  driver: local
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  db:
+    image: pgvector/pgvector:0.8.0-pg16
+    restart: unless-stopped
+    logging: *rotated-logs
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - postgres-prod-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [private]
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.prod
+    restart: unless-stopped
+    logging: *rotated-logs
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:?Set POSTGRES_USER}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:?Set POSTGRES_DB}
+      AUTH_TRUSTED_ORIGINS: https://${PUBLIC_DOMAIN:?Set PUBLIC_DOMAIN}
+      AUTH_SESSION_TTL_SECONDS: ${AUTH_SESSION_TTL_SECONDS:?Set approved auth policy}
+      AUTH_OTP_TTL_SECONDS: ${AUTH_OTP_TTL_SECONDS:?Set approved auth policy}
+      AUTH_OTP_MAX_ATTEMPTS: ${AUTH_OTP_MAX_ATTEMPTS:?Set approved auth policy}
+      AUTH_LOGIN_ATTEMPTS: ${AUTH_LOGIN_ATTEMPTS:?Set approved auth policy}
+      AUTH_OTP_REQUESTS: ${AUTH_OTP_REQUESTS:?Set approved auth policy}
+      AUTH_RATE_WINDOW_SECONDS: ${AUTH_RATE_WINDOW_SECONDS:?Set approved auth policy}
+      AUTH_PASSWORD_MIN_LENGTH: ${AUTH_PASSWORD_MIN_LENGTH:?Set approved auth policy}
+      AUTH_OTP_PEPPER: ${AUTH_OTP_PEPPER:?Set generated secret}
+      AUTH_RATE_LIMIT_SECRET: ${AUTH_RATE_LIMIT_SECRET:?Set generated secret}
+      OTP_PROVIDER: ${OTP_PROVIDER:?Set production OTP provider}
+      MFA_ENCRYPTION_KEY: ${MFA_ENCRYPTION_KEY:?Set generated Fernet key}
+      CONSENT_POLICY_VERSION: ${CONSENT_POLICY_VERSION:?Set approved consent policy version}
+      CLINICAL_STORAGE_ROOT: /var/private/clinical-documents
+      CLINICAL_SIGNING_KEY: ${CLINICAL_SIGNING_KEY:?Set generated secret}
+      CLINICAL_MAX_UPLOAD_BYTES: ${CLINICAL_MAX_UPLOAD_BYTES:?Set approved upload policy}
+      CLINICAL_SIGNED_URL_TTL_SECONDS: ${CLINICAL_SIGNED_URL_TTL_SECONDS:?Set approved URL policy}
+      RAZORPAY_MODE: ${RAZORPAY_MODE:?Set payment mode}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      NOTIFICATION_PROVIDER_FACTORY: ${NOTIFICATION_PROVIDER_FACTORY:?Set production notification provider}
+      AI_ENABLE_PLACEHOLDER_RULES: "false"
+      AI_PROVIDER_FACTORY: ${AI_PROVIDER_FACTORY:-}
+      AI_RATE_LIMIT_SECRET: ${AI_RATE_LIMIT_SECRET:?Set generated secret}
+      AI_DAILY_QUOTA: ${AI_DAILY_QUOTA:?Set approved AI policy}
+      AI_PER_MINUTE_LIMIT: ${AI_PER_MINUTE_LIMIT:?Set approved AI policy}
+      AI_USAGE_RETENTION_DAYS: ${AI_USAGE_RETENTION_DAYS:?Set approved retention policy}
+      AI_MAX_COSINE_DISTANCE: ${AI_MAX_COSINE_DISTANCE:?Set approved retrieval policy}
+    volumes:
+      - private-clinical-data:/var/private/clinical-documents
+    depends_on:
+      db:
+        condition: service_healthy
+    expose: ["8000"]
+    networks: [private, egress]
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile.prod
+    restart: unless-stopped
+    logging: *rotated-logs
+    depends_on:
+      api:
+        condition: service_healthy
+    expose: ["3000"]
+    networks: [private]
+
+  proxy:
+    image: caddy:2.11.9-alpine
+    restart: unless-stopped
+    logging: *rotated-logs
+    environment:
+      PUBLIC_DOMAIN: ${PUBLIC_DOMAIN:?Set PUBLIC_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./ops/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+    networks: [private, edge]
+
+  backup:
+    build:
+      context: ./ops/backup
+    restart: unless-stopped
+    logging: *rotated-logs
+    environment:
+      PGHOST: db
+      PGPORT: "5432"
+      PGDATABASE: ${POSTGRES_DB:?Set POSTGRES_DB}
+      PGUSER: ${POSTGRES_USER:?Set POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      BACKUP_AGE_RECIPIENT: ${BACKUP_AGE_RECIPIENT:?Set age public recipient}
+      BACKUP_INTERVAL_SECONDS: ${BACKUP_INTERVAL_SECONDS:?Set approved backup interval}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:?Set approved backup retention}
+      BACKUP_TMP_SIZE_BYTES: ${BACKUP_TMP_SIZE_BYTES:?Set approved backup scratch capacity}
+      CLINICAL_STORAGE_ROOT: /var/private/clinical-documents
+    volumes:
+      - ${BACKUP_DIRECTORY:?Set absolute BACKUP_DIRECTORY}:/backups
+      - private-clinical-data:/var/private/clinical-documents:ro
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=${BACKUP_TMP_SIZE_BYTES:?Set approved backup scratch capacity},mode=0700
+    depends_on:
+      api:
+        condition: service_healthy
+    networks: [private]
+
+volumes:
+  postgres-prod-data:
+  private-clinical-data:
+  caddy-data:
+  caddy-config:
+
+networks:
+  private:
+    internal: true
+  edge:
+  egress:

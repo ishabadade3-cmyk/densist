@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the dental platform HTTPS availability probe every minute
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+AccuracySec=10s
+Persistent=true
+Unit=dental-uptime-probe.service
+
+[Install]
+WantedBy=timers.target

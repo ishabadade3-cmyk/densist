@@ -1,0 +1,88 @@
+services:
+  db:
+    image: pgvector/pgvector:0.8.0-pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dental_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-dental_dev}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-only-dev-password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ./apps/api
+    command: ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-access-log"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://dental_dev:local-only-dev-password@db:5432/dental_dev}
+      TEST_DATABASE_URL: ${TEST_DATABASE_URL:-postgresql+psycopg://dental_dev:local-only-dev-password@db:5432/dental_dev}
+      APP_ENV: ${APP_ENV:-development}
+      OTP_PROVIDER: ${OTP_PROVIDER:-console}
+      AUTH_SESSION_TTL_SECONDS: ${AUTH_SESSION_TTL_SECONDS:-3600}
+      AUTH_OTP_TTL_SECONDS: ${AUTH_OTP_TTL_SECONDS:-300}
+      AUTH_OTP_MAX_ATTEMPTS: ${AUTH_OTP_MAX_ATTEMPTS:-5}
+      AUTH_LOGIN_ATTEMPTS: ${AUTH_LOGIN_ATTEMPTS:-5}
+      AUTH_OTP_REQUESTS: ${AUTH_OTP_REQUESTS:-3}
+      AUTH_RATE_WINDOW_SECONDS: ${AUTH_RATE_WINDOW_SECONDS:-900}
+      AUTH_PASSWORD_MIN_LENGTH: ${AUTH_PASSWORD_MIN_LENGTH:-12}
+      AUTH_OTP_PEPPER: ${AUTH_OTP_PEPPER:-development-only-otp-pepper}
+      AUTH_RATE_LIMIT_SECRET: ${AUTH_RATE_LIMIT_SECRET:-development-only-rate-limit-secret}
+      AUTH_TRUSTED_ORIGINS: ${AUTH_TRUSTED_ORIGINS:-http://localhost:3000,https://localhost:3000,http://127.0.0.1:3000,https://127.0.0.1:3000}
+      MFA_ENCRYPTION_KEY: ${MFA_ENCRYPTION_KEY:-}
+      CONSENT_POLICY_VERSION: ${CONSENT_POLICY_VERSION:-}
+      CLINICAL_STORAGE_ROOT: ${CLINICAL_STORAGE_ROOT:-/var/private/clinical-documents}
+      CLINICAL_SIGNING_KEY: ${CLINICAL_SIGNING_KEY:-development-only-clinical-signing-key}
+      CLINICAL_MAX_UPLOAD_BYTES: ${CLINICAL_MAX_UPLOAD_BYTES:-10485760}
+      CLINICAL_SIGNED_URL_TTL_SECONDS: ${CLINICAL_SIGNED_URL_TTL_SECONDS:-300}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      RAZORPAY_MODE: ${RAZORPAY_MODE:-sandbox}
+      PAYMENT_RECONCILE_AFTER_SECONDS: ${PAYMENT_RECONCILE_AFTER_SECONDS:-600}
+      NOTIFICATION_PROVIDER_FACTORY: ${NOTIFICATION_PROVIDER_FACTORY:-}
+      NOTIFICATION_RETRY_BASE_SECONDS: ${NOTIFICATION_RETRY_BASE_SECONDS:-60}
+      NOTIFICATION_BATCH_SIZE: ${NOTIFICATION_BATCH_SIZE:-50}
+      NOTIFICATION_REMINDER_LEAD_MINUTES: ${NOTIFICATION_REMINDER_LEAD_MINUTES:-}
+      NOTIFICATION_REMINDER_TEMPLATE_KEY: ${NOTIFICATION_REMINDER_TEMPLATE_KEY:-}
+      AI_PROVIDER_FACTORY: ${AI_PROVIDER_FACTORY:-}
+      AI_ENABLE_PLACEHOLDER_RULES: ${AI_ENABLE_PLACEHOLDER_RULES:-false}
+      AI_RATE_LIMIT_SECRET: ${AI_RATE_LIMIT_SECRET:-development-only-ai-rate-limit-secret}
+      AI_DAILY_QUOTA: ${AI_DAILY_QUOTA:-50}
+      AI_PER_MINUTE_LIMIT: ${AI_PER_MINUTE_LIMIT:-5}
+      AI_USAGE_RETENTION_DAYS: ${AI_USAGE_RETENTION_DAYS:-7}
+      AI_MAX_COSINE_DISTANCE: ${AI_MAX_COSINE_DISTANCE:-0.35}
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - private-clinical-data:/var/private/clinical-documents
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      NODE_ENV: development
+      NEXT_TELEMETRY_DISABLED: "1"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  private-clinical-data:
