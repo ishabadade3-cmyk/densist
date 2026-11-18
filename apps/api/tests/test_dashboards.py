@@ -13,7 +13,6 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.auth_routes import AuthContext, get_fully_authenticated_context, require_csrf
-from app.database import get_db
 from app.main import app
 
 

@@ -22,8 +22,5 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": { "service": "api" } },
     { "source": "/(.*)",     "destination": { "service": "web"  } }
-  ],
-  "env": {
-    "ALLOW_UNVERIFIED_CONTENT": "1"
-  }
+  ]
 }

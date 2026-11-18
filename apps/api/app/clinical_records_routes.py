@@ -167,6 +167,7 @@ def _storage() -> tuple[ClinicalStorageSettings, PrivateLocalStorage]:
 def _document_out(
     document: ClinicalDocument,
     settings: ClinicalStorageSettings,
+    uploaded_by: object = None,
 ) -> ClinicalDocumentOut:
     expires = int(datetime.now(timezone.utc).timestamp()) + settings.signed_url_ttl_seconds
     signature = sign_download(document.document_id, expires, settings)
@@ -515,7 +516,7 @@ def _list_documents(
     *,
     patient_view: bool,
 ) -> list[ClinicalDocumentOut]:
-    patient = _authorize_patient(db, context, patient_id, allow_clinic_admin=not patient_view)
+    _authorize_patient(db, context, patient_id, allow_clinic_admin=not patient_view)
     if patient_view and context.user.role != "patient":
         _audit(db, context, "clinical_document.read_denied", "clinical_document", outcome="denied")
         db.commit()

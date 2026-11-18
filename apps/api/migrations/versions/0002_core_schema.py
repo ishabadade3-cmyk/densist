@@ -8,7 +8,7 @@ from collections.abc import Sequence
 
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy import MetaData
+from sqlalchemy import CheckConstraint, MetaData
 
 from app.models import Base
 
