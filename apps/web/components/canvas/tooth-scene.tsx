@@ -53,92 +53,122 @@ export function ToothScene() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
     container.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0, 4.6);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    camera.position.set(0, 0.2, 4.8);
 
     // Group for tooth model + shadow
     const mainGroup = new THREE.Group();
     scene.add(mainGroup);
 
-    // Porcelain Ceramic Material
+    // 1. Luxury Porcelain Ceramic Material (Translucent Ivory White)
     const porcelainMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xfcfbfa,
-      roughness: 0.18,
-      metalness: 0.05,
-      clearcoat: 0.9,
-      clearcoatRoughness: 0.1,
-      transmission: 0.15, // Subtle light transmission through porcelain
-      thickness: 1.2,
+      roughness: 0.14,
+      metalness: 0.04,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.08,
+      transmission: 0.22,
+      thickness: 1.4,
       specularIntensity: 1.0,
       specularColor: new THREE.Color(0xffffff),
     });
 
-    const rootMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf2ece0,
-      roughness: 0.35,
-      metalness: 0.02,
+    // 2. Polished Gold Abutment Material
+    const goldAbutmentMaterial = new THREE.MeshStandardMaterial({
+      color: 0xd4af37,
+      metalness: 0.88,
+      roughness: 0.22,
     });
 
-    // 1. Crown Base (Molar Body)
-    const crownGeo = new THREE.CylinderGeometry(0.85, 0.65, 0.9, 32, 16);
-    crownGeo.scale(1.05, 1, 0.95);
-    const crown = new THREE.Mesh(crownGeo, porcelainMaterial);
-    crown.position.y = 0.25;
-    mainGroup.add(crown);
+    // 3. Precision Medical Titanium Material
+    const titaniumMaterial = new THREE.MeshStandardMaterial({
+      color: 0x94a3a8,
+      metalness: 0.92,
+      roughness: 0.28,
+    });
 
-    // 2. Crown Cusps (4 Anatomical Molar Cusps)
+    // A. Ceramic Crown (Smooth, contoured anatomical molar)
+    const crownGroup = new THREE.Group();
+
+    // Crown core body
+    const crownCoreGeo = new THREE.CylinderGeometry(0.82, 0.62, 0.85, 36, 16);
+    crownCoreGeo.scale(1.08, 1.0, 0.96);
+    const crownCore = new THREE.Mesh(crownCoreGeo, porcelainMaterial);
+    crownCore.position.y = 0.55;
+    crownGroup.add(crownCore);
+
+    // Crown occlusal dome (rounded, soft cusps)
+    const domeGeo = new THREE.SphereGeometry(0.82, 32, 24, 0, Math.PI * 2, 0, Math.PI * 0.45);
+    domeGeo.scale(1.08, 0.55, 0.96);
+    const crownDome = new THREE.Mesh(domeGeo, porcelainMaterial);
+    crownDome.position.y = 0.96;
+    crownGroup.add(crownDome);
+
+    // Subtle anatomical cusp mounds
     const cuspPositions = [
-      [-0.42, 0.72, -0.38],
-      [0.42, 0.74, -0.38],
-      [-0.45, 0.73, 0.38],
-      [0.45, 0.71, 0.38],
+      [-0.38, 1.08, -0.32],
+      [0.38, 1.09, -0.32],
+      [-0.40, 1.07, 0.32],
+      [0.40, 1.06, 0.32],
     ];
 
     cuspPositions.forEach(([x, y, z]) => {
-      const cuspGeo = new THREE.SphereGeometry(0.38, 24, 24);
-      cuspGeo.scale(1, 0.8, 1);
+      const cuspGeo = new THREE.SphereGeometry(0.24, 20, 20);
+      cuspGeo.scale(1.0, 0.65, 1.0);
       const cusp = new THREE.Mesh(cuspGeo, porcelainMaterial);
       cusp.position.set(x, y, z);
-      mainGroup.add(cusp);
+      crownGroup.add(cusp);
     });
 
-    // 3. Central Fissure Smooth Infill
-    const fissureGeo = new THREE.SphereGeometry(0.48, 20, 20);
-    fissureGeo.scale(1.1, 0.5, 0.9);
-    const fissure = new THREE.Mesh(fissureGeo, porcelainMaterial);
-    fissure.position.set(0, 0.6, 0);
-    mainGroup.add(fissure);
+    mainGroup.add(crownGroup);
 
-    // 4. Roots (Dual Anatomical Roots)
-    const rootGeo1 = new THREE.ConeGeometry(0.28, 1.25, 24);
-    rootGeo1.scale(1, 1, 0.75);
-    const root1 = new THREE.Mesh(rootGeo1, rootMaterial);
-    root1.position.set(-0.35, -0.65, 0);
-    root1.rotation.z = 0.08;
-    root1.rotation.y = 0.1;
-    mainGroup.add(root1);
+    // B. Abutment Collar (Champagne Gold / Precision Fit)
+    const abutmentGeo = new THREE.CylinderGeometry(0.58, 0.44, 0.28, 32);
+    const abutment = new THREE.Mesh(abutmentGeo, goldAbutmentMaterial);
+    abutment.position.y = 0.05;
+    mainGroup.add(abutment);
 
-    const rootGeo2 = new THREE.ConeGeometry(0.28, 1.25, 24);
-    rootGeo2.scale(1, 1, 0.75);
-    const root2 = new THREE.Mesh(rootGeo2, rootMaterial);
-    root2.position.set(0.35, -0.65, 0);
-    root2.rotation.z = -0.08;
-    root2.rotation.y = -0.1;
-    mainGroup.add(root2);
+    // C. Titanium Implant Fixture (Threaded Screw Post)
+    const fixtureGroup = new THREE.Group();
 
-    // 5. Contact Shadow Plane
-    const shadowGeo = new THREE.PlaneGeometry(2.4, 2.4);
+    const fixturePostGeo = new THREE.CylinderGeometry(0.42, 0.22, 1.25, 32);
+    const fixturePost = new THREE.Mesh(fixturePostGeo, titaniumMaterial);
+    fixturePost.position.y = -0.7;
+    fixtureGroup.add(fixturePost);
+
+    // Threaded titanium micro-grooves
+    const threadHeights = [-0.25, -0.42, -0.59, -0.76, -0.93, -1.1];
+    const threadRadii = [0.43, 0.41, 0.38, 0.34, 0.30, 0.25];
+
+    threadHeights.forEach((h, i) => {
+      const ringGeo = new THREE.TorusGeometry(threadRadii[i], 0.024, 12, 32);
+      ringGeo.rotateX(Math.PI / 2);
+      const ring = new THREE.Mesh(ringGeo, titaniumMaterial);
+      ring.position.y = h;
+      fixtureGroup.add(ring);
+    });
+
+    // Apex Rounded Tip
+    const apexGeo = new THREE.SphereGeometry(0.22, 20, 16);
+    const apex = new THREE.Mesh(apexGeo, titaniumMaterial);
+    apex.position.y = -1.32;
+    fixtureGroup.add(apex);
+
+    mainGroup.add(fixtureGroup);
+
+    // D. Soft Ambient Contact Shadow Plane
+    const shadowGeo = new THREE.PlaneGeometry(2.6, 2.6);
     const shadowCanvas = document.createElement("canvas");
     shadowCanvas.width = 128;
     shadowCanvas.height = 128;
     const ctx = shadowCanvas.getContext("2d");
     if (ctx) {
       const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-      gradient.addColorStop(0, "rgba(14, 42, 47, 0.28)");
+      gradient.addColorStop(0, "rgba(14, 42, 47, 0.32)");
       gradient.addColorStop(0.5, "rgba(14, 42, 47, 0.08)");
       gradient.addColorStop(1, "rgba(14, 42, 47, 0)");
       ctx.fillStyle = gradient;
@@ -148,22 +178,22 @@ export function ToothScene() {
     const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, opacity: 0.65 });
     const shadow = new THREE.Mesh(shadowGeo, shadowMat);
     shadow.rotation.x = -Math.PI / 2;
-    shadow.position.y = -1.45;
+    shadow.position.y = -1.6;
     scene.add(shadow);
 
-    // Studio Lighting
-    const ambientLight = new THREE.AmbientLight(0xf7f5f0, 0.85);
+    // E. Multi-Point Studio Lighting
+    const ambientLight = new THREE.AmbientLight(0xf7f5f0, 0.9);
     scene.add(ambientLight);
 
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
     keyLight.position.set(3, 4, 4);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xcdebe6, 0.75); // Aqua Mist fill
+    const fillLight = new THREE.DirectionalLight(0xcdebe6, 0.8); // Aqua Mist soft fill
     fillLight.position.set(-3, -1, 3);
     scene.add(fillLight);
 
-    const rimLight = new THREE.DirectionalLight(0xc9a66b, 0.6); // Champagne rim
+    const rimLight = new THREE.DirectionalLight(0xc9a66b, 0.85); // Champagne luxury rim
     rimLight.position.set(0, 3, -3);
     scene.add(rimLight);
 
@@ -181,7 +211,7 @@ export function ToothScene() {
     };
 
     const handleScroll = () => {
-      scrollRotation = window.scrollY * 0.0018;
+      scrollRotation = window.scrollY * 0.0016;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -196,14 +226,14 @@ export function ToothScene() {
       const elapsedTime = clock.getElapsedTime();
 
       // Gentle floating motion
-      mainGroup.position.y = Math.sin(elapsedTime * 1.4) * 0.08;
+      mainGroup.position.y = Math.sin(elapsedTime * 1.3) * 0.07;
 
       // Smooth mouse interpolation + scroll rotation
-      mainGroup.rotation.y += (targetX + scrollRotation + elapsedTime * 0.25 - mainGroup.rotation.y) * 0.05;
-      mainGroup.rotation.x += (targetY * 0.4 - mainGroup.rotation.x) * 0.05;
+      mainGroup.rotation.y += (targetX + scrollRotation + elapsedTime * 0.22 - mainGroup.rotation.y) * 0.05;
+      mainGroup.rotation.x += (targetY * 0.35 - mainGroup.rotation.x) * 0.05;
 
       // Soft shadow breathing
-      shadow.scale.setScalar(1 + Math.sin(elapsedTime * 1.4) * 0.05);
+      shadow.scale.setScalar(1 + Math.sin(elapsedTime * 1.3) * 0.04);
 
       renderer.render(scene, camera);
     };
@@ -231,7 +261,8 @@ export function ToothScene() {
       }
       renderer.dispose();
       porcelainMaterial.dispose();
-      rootMaterial.dispose();
+      goldAbutmentMaterial.dispose();
+      titaniumMaterial.dispose();
       shadowTex.dispose();
     };
   }, []);

@@ -59,11 +59,8 @@ export function Navbar({ onBookClick }: NavbarProps) {
     { label: "About", href: "/about" },
     { label: "Treatments", href: "/services" },
     { label: "Our Dentists", href: "/dentists" },
-    { label: "Smile Gallery", href: "/gallery" },
-    { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/faq" },
     { label: "Contact", href: "/contact" },
-    { label: "Patient Portal", href: "/portal" },
   ];
 
   return (

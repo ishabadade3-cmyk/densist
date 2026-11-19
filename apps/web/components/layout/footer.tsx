@@ -85,16 +85,6 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="hover:text-primary transition-colors">
-                  Smile Transformations
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-primary transition-colors">
-                  Oral Health Blog
-                </Link>
-              </li>
-              <li>
                 <Link href="/faq" className="hover:text-primary transition-colors">
                   Frequently Asked Questions
                 </Link>

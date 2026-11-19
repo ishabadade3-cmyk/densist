@@ -4,7 +4,6 @@ import { DentalClinicJsonLd } from "@/components/seo/json-ld";
 import { HeroInteractive } from "@/components/hero/hero-interactive";
 import { PinnedTrustStory } from "@/components/sections/pinned-trust-story";
 import { TreatmentsBentoGrid } from "@/components/sections/treatments-bento-grid";
-import { SmileGallerySlider } from "@/components/sections/smile-gallery-slider";
 import { DentistsShowcase } from "@/components/sections/dentists-showcase";
 import { TestimonialsCarousel } from "@/components/sections/testimonials-carousel";
 import { AIDentalAssistant } from "@/components/ai/ai-dental-assistant";
@@ -39,10 +38,7 @@ export default function HomePage() {
       {/* 3. DENTAL TREATMENTS BENTO GRID (Tilt on Hover + Featured Large Tiles) */}
       <TreatmentsBentoGrid />
 
-      {/* 4. BEFORE & AFTER SMILE GALLERY (Interactive Comparison Slider) */}
-      <SmileGallerySlider />
-
-      {/* 5. MEET OUR DENTISTS (Hover Bio Reveal + Specialist Qualifications) */}
+      {/* 4. MEET OUR DENTISTS (Hover Bio Reveal + Specialist Qualifications) */}
       <DentistsShowcase />
 
       {/* 6. PATIENT TESTIMONIALS (Draggable Carousel + Parallax Quotes) */}
