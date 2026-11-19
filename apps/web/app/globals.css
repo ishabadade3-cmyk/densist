@@ -4,32 +4,32 @@
 
 @layer base {
   :root {
-    /* Design Tokens from docs/brain/design-system.md */
-    --primary: #0B5D5E;
+    /* Design Tokens from Figma Design System (07-figma-design-system-and-mockups.md) */
+    --primary: #0F5257; /* Deep Teal */
     --primary-foreground: #FFFFFF;
-    --primary-hover: #08494A;
+    --primary-hover: #0B3E42;
 
-    --secondary: #C5A46D;
-    --secondary-foreground: #242B2B;
-    --secondary-hover: #B4925B;
+    --secondary: #C9A66B; /* Champagne Accent */
+    --secondary-foreground: #0E2A2F;
+    --secondary-hover: #B59257;
 
-    --background: #FAF9F6;
-    --foreground: #242B2B;
+    --background: #F7F5F0; /* Porcelain */
+    --foreground: #0E2A2F; /* Ink */
 
-    --accent: #DDE9E3;
-    --accent-foreground: #242B2B;
-    --accent-hover: #CFDFD6;
+    --accent: #CDEBE6; /* Aqua Mist */
+    --accent-foreground: #0E2A2F;
+    --accent-hover: #BAE2DC;
 
-    --muted: #E8EDE9;
-    --muted-foreground: #4B5757;
+    --muted: #EAE6DF;
+    --muted-foreground: #3D5357; /* Ink Muted */
 
     --card: #FFFFFF;
-    --card-foreground: #242B2B;
+    --card-foreground: #0E2A2F;
 
-    --border: #D1DAD5;
-    --input: #D1DAD5;
-    --input-focus: #0B5D5E;
-    --ring: #0B5D5E;
+    --border: #D8E2DF;
+    --input: #D8E2DF;
+    --input-focus: #0F5257;
+    --ring: #0F5257;
 
     --destructive: #991B1B;
     --destructive-foreground: #FFFFFF;
@@ -37,17 +37,18 @@
     --success: #166534;
     --success-foreground: #FFFFFF;
 
-    /* Scale Proposals from docs/brain/design-system.md §Scale proposals */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-2xl: 24px;
+    /* Radius System */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
     --radius-full: 9999px;
 
-    --shadow-sm: 0 1px 2px #242B2B14;
-    --shadow-md: 0 4px 16px #242B2B12;
-    --shadow-lg: 0 12px 32px #242B2B18;
+    /* Layered Soft Shadows */
+    --shadow-sm: 0 1px 3px rgba(14, 42, 47, 0.05);
+    --shadow-md: 0 8px 24px rgba(14, 42, 47, 0.06);
+    --shadow-lg: 0 16px 40px rgba(14, 42, 47, 0.08);
 
     /* Motion Proposals: 200ms interaction cap, 400ms transition cap */
     --duration-fast: 200ms;
@@ -61,6 +62,23 @@
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+  }
+
+  /* Lenis smooth scrolling helper styles */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
   }
 
   body {

@@ -13,9 +13,34 @@ export interface NavbarProps {
 
 export function Navbar({ onBookClick }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+  const lastScrollY = React.useRef(0);
+
   const menuRef = React.useRef<HTMLDivElement>(null);
   const toggleBtnRef = React.useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+
+  // Scroll listener for progress bar and shrink / hide-on-scroll-down
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(totalHeight > 0 ? (currentScrollY / totalHeight) * 100 : 0);
+      setScrolled(currentScrollY > 40);
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setVisible(false); // Hide on scroll down
+      } else {
+        setVisible(true); // Reappear on scroll up
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close mobile menu on Escape key
   React.useEffect(() => {
@@ -42,8 +67,20 @@ export function Navbar({ onBookClick }: NavbarProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-md border-b border-border shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+    <>
+      {/* Top Deep Teal Scroll Progress Bar */}
+      <div
+        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50 pointer-events-none transition-all"
+        style={{ width: `${scrollProgress}%` }}
+        aria-hidden="true"
+      />
+
+      <header
+        className={`sticky top-0 z-40 w-full border-b border-border transition-all duration-300 ${
+          visible ? "translate-y-0" : "-translate-y-full"
+        } ${scrolled ? "bg-card/85 backdrop-blur-md shadow-sm h-16" : "bg-background/95 backdrop-blur-xs h-20"}`}
+      >
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "h-16" : "h-20"}`}>
         {/* Brand Logo / Identity */}
         <Link
           href="/"
@@ -212,5 +249,6 @@ export function Navbar({ onBookClick }: NavbarProps) {
         </div>
       )}
     </header>
+    </>
   );
 }
