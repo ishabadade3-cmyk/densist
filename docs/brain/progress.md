@@ -110,3 +110,8 @@
 - **Deliverables:** apps/web/components/layout/navbar.tsx, apps/web/components/layout/footer.tsx, apps/web/app/page.tsx, apps/web/components/canvas/tooth-scene.tsx
 - **Status:** Done
 - **Notes:** Streamlined header navigation by removing 'Smile Gallery', 'Blog', and 'Patient Portal' from primary nav, eliminating wrapping issues on desktop. Removed links from footer and removed SmileGallerySlider from homepage while preserving routes and backend portal functionality for existing tests and direct access. Upgraded 3D scene from geometric placeholder to an organic porcelain molar crown, champagne gold abutment collar, and threaded medical titanium implant fixture with ambient contact shadow and parallax. All 40/40 tests, ESLint, and Next.js static build (41/41 pages) passing.
+
+## 2026-11-19 — Deliver comprehensive audit, research, redesign plan, and placeholders
+- **Deliverables:** AUDIT.md, RESEARCH.md, PLAN.md, PLACEHOLDERS.md, skills-lock.json, .agents/skills/
+- **Status:** Done
+- **Notes:** Completed Phases 1, 2, and 3. Audited design system, UX flows, and root-caused the /book booking failure (loopback proxy rewrite 127.0.0.1:8000 returning DNS_HOSTNAME_RESOLVED_PRIVATE on Vercel); researched 6 global/Indian dental benchmarks, 3D anatomical molar/implant cross-section geometry, and Supabase btree_gist double-booking prevention; formulated PLAN.md covering brand renaming (Lumina Dental & Implant Studio), enriched linen palette, hero cross-section interaction, Supabase backend schema, and registered clinical placeholders in PLACEHOLDERS.md.
