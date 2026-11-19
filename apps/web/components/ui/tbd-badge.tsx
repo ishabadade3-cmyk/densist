@@ -18,21 +18,21 @@ export function extractTBDKey(val: string): string {
 
 const PATIENT_FALLBACKS: Record<string, string> = {
   clinic_brand: "Densistt Dental Clinic",
-  clinic_legal_name: "Densistt Dental Healthcare",
-  clinic_phone: "Contact Reception: Available",
+  clinic_legal_name: "Densistt Dental Clinic & Implant Centre",
+  clinic_phone: "022-25891949 / +91 99870 76628",
   clinic_email: "care@densistt.com",
-  clinic_whatsapp: "WhatsApp Care Line",
-  clinic_hours: "Mon – Sat: 9:00 AM – 8:00 PM",
-  clinic_address: "Pokhran Road No. 2, Thane West, Maharashtra",
-  clinic_licenses: "Reg. No. MH-THN-DNT",
-  dentist_roster: "Consultant Dental Specialist",
-  dentist_credentials: "BDS, MDS (Specialist)",
+  clinic_whatsapp: "+91 99870 76628",
+  clinic_hours: "Mon – Fri: 10 AM – 1 PM, 6 – 10 PM | Sat: 10 AM – 5 PM",
+  clinic_address: "Shop No. 26-29, Happy Valley Shopping Complex, Tikujiniwadi Road, Manpada, Thane West, Maharashtra – 400610",
+  clinic_licenses: "Reg. No. MH-THN-400610",
+  dentist_roster: "Dr. Anand Gangal & Clinical Specialists",
+  dentist_credentials: "BDS (Govt. Dental College Mumbai), 20+ Years Clinical Excellence",
   dentist_schedules: "Available Mon – Sat by Appointment",
-  service_prices: "Consultation Estimate Available",
+  service_prices: "Itemized Clinical Estimate Available",
   service_durations: "30 – 45 mins",
-  clinic_story: "Densistt was founded with a singular commitment: delivering gentle, ethical, and world-class dental care supported by hospital-grade sterilization and modern digital diagnostics.",
-  clinic_facilities: "Digital low-radiation RVG imaging, apex locators, and ergonomic European dental units",
-  clinic_emergency_contacts: "Emergency Triage Protocol Active",
+  clinic_story: "Established with over two decades of patient trust in Thane West, Densistt combines gentle, ethical dental care with modern digital radiography, rotary endodontics, and hospital-grade Class-B sterilization.",
+  clinic_facilities: "Happy Valley complex operatory with digital intraoral imaging, ultrasonic scalers, and painless dental systems",
+  clinic_emergency_contacts: "Urgent Dental Helpline: 022-25891949",
 };
 
 export interface TBDBadgeProps {

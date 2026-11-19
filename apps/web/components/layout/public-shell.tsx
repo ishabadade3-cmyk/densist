@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
+import { QuickContactBar } from "./quick-contact-bar";
 import { Dialog } from "@/components/ui/dialog";
 import { Label, Input, Select, Textarea } from "@/components/ui/form-fields";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,9 @@ export function PublicShell({ children }: PublicShellProps) {
       </main>
 
       <Footer />
+
+      {/* Floating & Mobile Quick Action Bar (Call, WhatsApp, Directions, Book) */}
+      <QuickContactBar onBookClick={() => setIsBookingOpen(true)} />
 
       {/* Appointment Consultation Request Modal */}
       <Dialog
