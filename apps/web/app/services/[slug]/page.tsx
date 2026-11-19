@@ -190,9 +190,9 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                     Fee disclaimer: All costs are indicative estimates. A comprehensive, itemized clinical quotation is provided only following in-person examination and necessary radiographs.
                   </p>
 
-                  <Link href="/contact#book" className="pt-2">
+                  <Link href="/book" className="pt-2">
                     <Button variant="primary" size="md" className="w-full justify-center">
-                      Schedule Appointment
+                      Book Appointment
                     </Button>
                   </Link>
                   <Link href="/services">

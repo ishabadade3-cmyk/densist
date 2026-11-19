@@ -90,3 +90,8 @@
 - **Deliverables:** .github/workflows/ci.yml, apps/api/migrations/versions/0002_core_schema.py, apps/api/app/auth_routes.py, apps/api/tests/conftest.py
 - **Status:** Done (All CI checks and Vercel deployments passing)
 - **Notes:** Verified all 3 GitHub Actions CI jobs (web, api, compose-smoke) and all 3 Vercel deployments (densist, densist-bkuq, densist-hia6) completed with SUCCESS on commit 03830a6.
+
+## 2026-11-19 — Densistt Dental website optimization and luxury redesign
+- **Deliverables:** apps/web/app/page.tsx, apps/web/components/ai/ai-dental-assistant.tsx, apps/web/config/clinic-content.ts, apps/web/components/ui/tbd-badge.tsx, apps/web/app/gallery/page.tsx, apps/web/app/services/page.tsx, apps/web/app/services/[slug]/page.tsx, apps/web/app/dentists/page.tsx, apps/web/app/about/page.tsx, apps/web/components/layout/footer.tsx
+- **Status:** Done
+- **Notes:** Transformed public website into a premium, luxury, modern dental clinic platform. Redesigned homepage with 11 sections; removed developer-only styleguide links, public health indicators, and internal consent IDs; merged duplicate sections; simplified technical dental jargon into patient-friendly language; added 10 structured treatment cards; created interactive AI Dental Assistant with medical disclaimers; standardized CTA button labels to 'Book Appointment' throughout; 40/40 tests and Next.js production build passing.

@@ -99,11 +99,6 @@ export function Footer() {
                   Frequently Asked Questions
                 </Link>
               </li>
-              <li>
-                <Link href="/styleguide" className="hover:text-primary transition-colors text-xs text-muted-foreground/70">
-                  Design System Styleguide
-                </Link>
-              </li>
             </ul>
           </div>
 

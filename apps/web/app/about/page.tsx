@@ -112,9 +112,9 @@ export default function AboutPage() {
                       View Clinical Specialists
                     </Button>
                   </Link>
-                  <Link href="/contact#book">
+                  <Link href="/book">
                     <Button variant="primary" size="sm" className="w-full justify-center">
-                      Schedule Consultation
+                      Book Appointment
                     </Button>
                   </Link>
                 </div>

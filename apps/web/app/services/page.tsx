@@ -82,9 +82,9 @@ export default function ServicesPage() {
                   >
                     Clinical Protocol &rarr;
                   </Link>
-                  <Link href="/contact#book">
+                  <Link href="/book">
                     <Button variant="primary" size="sm">
-                      Book Visit
+                      Book Appointment
                     </Button>
                   </Link>
                 </CardFooter>

@@ -110,8 +110,9 @@ export default function SmileGalleryPage() {
                   <div className="p-6 flex flex-col gap-3">
                     <div className="flex items-center justify-between text-xs text-secondary font-semibold">
                       <span>{item.category}</span>
-                      <span className="font-mono text-[10px] text-muted-foreground bg-accent/50 px-2 py-0.5 rounded">
-                        Consent #{item.consentReferenceId}
+                      <span className="inline-flex items-center gap-1.5 text-[11px] text-primary font-medium bg-accent/40 px-2 py-0.5 rounded-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        Verified Clinical Case
                       </span>
                     </div>
 
@@ -121,7 +122,7 @@ export default function SmileGalleryPage() {
                     {/* Before & After Comparison Cards */}
                     <div className="grid grid-cols-1 gap-2 pt-2">
                       <div className="p-3 rounded-lg bg-accent/40 border border-border/70 text-xs">
-                        <span className="font-semibold text-primary block mb-0.5">Clinical Presentation:</span>
+                        <span className="font-semibold text-primary block mb-0.5">Initial Clinical Presentation:</span>
                         <span className="text-muted-foreground">{item.beforeLabel}</span>
                       </div>
                       <div className="p-3 rounded-lg bg-accent/40 border border-border/70 text-xs">
@@ -164,7 +165,7 @@ export default function SmileGalleryPage() {
         isOpen={activeItem !== null}
         onClose={() => setActiveItemIndex(null)}
         title={activeItem?.title || "Clinical Transformation Case"}
-        description={`Category: ${activeItem?.category || ""} • Verified Consent Ref: ${activeItem?.consentReferenceId || ""}`}
+        description={`Category: ${activeItem?.category || ""} • Verified Clinical Case Documentation`}
       >
         {activeItem && (
           <div className="flex flex-col gap-6" tabIndex={0} aria-label="Case Details Viewer">
@@ -175,14 +176,14 @@ export default function SmileGalleryPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-4 rounded-xl bg-accent/40 border border-border flex flex-col gap-2">
                 <span className="text-xs uppercase tracking-wider font-semibold text-primary">
-                  Initial Clinical Finding
+                  Initial Clinical Presentation
                 </span>
                 <p className="text-xs text-foreground leading-relaxed">{activeItem.beforeLabel}</p>
               </div>
 
               <div className="p-4 rounded-xl bg-accent/40 border border-border flex flex-col gap-2">
                 <span className="text-xs uppercase tracking-wider font-semibold text-success">
-                  Post-Treatment State
+                  Post-Procedure Result
                 </span>
                 <p className="text-xs text-foreground leading-relaxed">{activeItem.afterLabel}</p>
               </div>
@@ -227,9 +228,9 @@ export default function SmileGalleryPage() {
                 <kbd className="px-1.5 py-0.5 bg-accent/60 rounded text-[10px] font-mono">→</kbd> keys to navigate
               </span>
 
-              <Link href="/contact#book">
+              <Link href="/book">
                 <Button variant="primary" size="sm">
-                  Book Consult
+                  Book Appointment
                 </Button>
               </Link>
             </div>

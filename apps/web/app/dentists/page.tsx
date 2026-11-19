@@ -103,9 +103,9 @@ export default function DentistsPage() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border">
-                      <Link href="/contact#book">
+                      <Link href="/book">
                         <Button variant="primary" size="md">
-                          Book Consultation with {doc.name.startsWith("TBD:") ? "Specialist" : doc.name}
+                          Book Appointment
                         </Button>
                       </Link>
                       <Link href="/services">
